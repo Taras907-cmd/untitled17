@@ -10,17 +10,20 @@ import java.nio.file.Paths;
 import static org.example.Utils.*;
 
 public class HttpStatusImageDownloader {
+    public static final String FILE_ALREADY_EXIST_TEXT = "File with code %s already exist";
+    public static final String DIRECTORY_FOR_SAVE = "C:\\Users\\WellDone\\Desktop\\untitled17\\src\\main\\resources\\cat";
+
     public void downloadStatusImage(int code) throws Exception {
         String url = new HttpStatusChecker().getStatusImage(code);
-        try (InputStream in = new URL(url).openStream()){
+        try (InputStream in = new URL(url).openStream()) {
             String path = DIRECTORY_FOR_SAVE + code + EXTENSION;
-            if (!new File(path).exists()){
+            if (!new File(path).exists()) {
                 Files.copy(in, Paths.get(path));
-            }else {
-                System.out.println(String.format(FILT_ALREADY_EXIST_TEXT));
+            } else {
+                System.out.println(String.format(FILE_ALREADY_EXIST_TEXT));
             }
-        }catch (Exception e){
-            throw new FileNotFoundException(String.format(FILE_NOT_FOUND_EXCEPTION_TEXT,code));
+        } catch (Exception e) {
+            throw new FileNotFoundException(String.format(FILE_NOT_FOUND_EXCEPTION_TEXT, code));
         }
     }
 }
